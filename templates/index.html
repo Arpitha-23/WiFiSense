@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WiFiSense | Network Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <header class="topbar">
+        <div class="brand">
+            <span class="wifi-icon">◉</span>
+            <div>
+                <h1>WiFiSense</h1>
+                <p>Smart Wi-Fi Quality Analyzer</p>
+            </div>
+        </div>
+        <div class="live-status">
+           <span class="live-dot" id="liveDot"></span>
+           <span id="liveStatus">Initializing...</span>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="welcome">
+            <div>
+                <p class="eyebrow">NETWORK INTELLIGENCE</p>
+                <h2>Your connection, <span>decoded.</span></h2>
+                <p>Monitor signal strength, latency, packet loss and connection health.</p>
+            </div>
+            <button id="refreshBtn" onclick="refreshData()">
+                ↻ Refresh Analysis
+            </button>
+        </section>
+
+        <section class="network-banner">
+            <div class="network-symbol">⌁</div>
+            <div>
+                <p class="muted">CONNECTED NETWORK</p>
+                <h3 id="ssid">Loading network...</h3>
+                <p id="connectionStatus">Checking connection...</p>
+            </div>
+            <div class="banner-right">
+              <span class="muted">WI-FI QUALITY</span>
+              <div><strong id="score">--</strong><span>/100</span></div>
+              <p id="qualityRating">Waiting for measurements</p>
+            </div>
+        </section>
+
+        <section class="metrics">
+            <article class="metric-card">
+                <div class="metric-heading">
+                    <span>Signal Strength</span>
+                    <span class="metric-icon">◉</span>
+                </div>
+                <h2 id="signal">--<small>%</small></h2>
+                <div class="progress-track">
+                    <div id="signalBar" class="progress-fill"></div>
+                </div>
+                <p id="signalNote">Waiting for measurement</p>
+            </article>
+
+            <article class="metric-card">
+                <div class="metric-heading">
+                    <span>Network Latency</span>
+                    <span class="metric-icon">◷</span>
+                </div>
+                <h2 id="latency">--<small> ms</small></h2>
+                <p>Average ping response time</p>
+                <p id="latencyNote">Waiting for measurement</p>
+            </article>
+
+            <article class="metric-card">
+                <div class="metric-heading">
+                    <span>Packet Loss</span>
+                    <span class="metric-icon">⌁</span>
+                </div>
+                <h2 id="packetLoss">--<small>%</small></h2>
+                <p>Unanswered ping requests</p>
+                <p id="lossNote">Waiting for measurement</p>
+            </article>
+
+            <article class="metric-card">
+                <div class="metric-heading">
+                    <span>Connectivity</span>
+                    <span class="metric-icon">↗</span>
+                </div>
+                <h2 id="networkStatus">--</h2>
+                <p>External server reachability</p>
+                <p id="statusNote">Waiting for measurement</p>
+            </article>
+        </section>
+
+        <section class="content-grid">
+            <article class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Network Performance</h3>
+                        <p>Recent latency measurements</p>
+                    </div>
+                    <span class="tag">LIVE</span>
+                </div>
+                <canvas id="latencyChart"></canvas>
+                <p id="chartMessage" class="muted">
+                    Collecting the first measurement...
+                </p>
+            </article>
+        
+<div class="panel">
+    <div class="panel-header">
+        <h2>Wi-Fi Quality History</h2>
+        <span class="muted">Score out of 100</span>
+    </div>
+
+    <canvas id="qualityChart"></canvas>
+
+    <p id="qualityChartMessage" class="muted">
+        Collecting quality measurements...
+    </p>
+</div>
+
+
+            <article class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Smart Recommendations</h3>
+                        <p>Suggestions based on your results</p>
+                    </div>
+                    <span>✦</span>
+                </div>
+                <ul id="recommendations" class="recommendations">
+                    <li>Analyzing your connection...</li>
+                </ul>
+            </article>
+        </section>
+
+        <footer>
+            WiFiSense · Computer Networks Mini Project ·
+            <span id="lastUpdated">Not yet updated</span>
+        </footer>
+        
+<section class="panel history-panel">
+    <div class="panel-heading">
+        <div>
+            <h3>Measurement History</h3>
+            <p>Your 20 most recent network measurements</p>
+        </div>
+        <a href="/download-report" class="download-btn">
+            Download CSV Report
+        </a>
+    </div>
+
+    <div class="table-wrap">
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Signal</th>
+                    <th>Latency</th>
+                    <th>Packet Loss</th>
+                    <th>Status</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody id="historyBody">
+                <tr>
+                    <td colspan="6">Loading history...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
